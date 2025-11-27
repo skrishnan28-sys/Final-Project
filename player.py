@@ -6,7 +6,7 @@ from datetime import datetime
 
 class Player:
     """
-    Represents a player with a score and metadata.
+    Represents a player with a score and other metadata.
     Players are compared by score (and player_id as tiebreaker).
     """
     
