@@ -1,10 +1,6 @@
 """
 Real-Time Multiplayer Leaderboard System
-
-Components:
-- Binary Search Tree (BST) for maintaining rankings
-- FIFO Queue for processing updates in order
-- Hash map for O(1) player lookups
+Srinivas Krishnan
 """
 from bst import BinarySearchTree
 from player import Player
@@ -16,7 +12,7 @@ class LeaderboardSystem:
     """
     Complete leaderboard system integrating all components.
 
-    Architecture:
+    Design:
     1. Updates arrive → Enqueued in FIFO Queue
     2. Process queue → Apply to BST in order
     3. Rankings → Retrieved from BST
@@ -191,10 +187,10 @@ class LeaderboardSystem:
         print("\n-----------------------------------------------")
         print(" SYSTEM STATISTICS ")
         print("\n-----------------------------------------------")
-        print(f"  Total Players:        {stats['total_players']}")
-        print(f"  Pending Updates:      {stats['pending_updates']}")
-        print(f"  Updates Submitted:    {stats['total_updates_submitted']}")
-        print(f"  Updates Processed:    {stats['updates_processed']}")
+        print(f"  Total Players:{stats['total_players']}")
+        print(f"  Pending Updates:{stats['pending_updates']}")
+        print(f"  Updates Submitted:{stats['total_updates_submitted']}")
+        print(f"  Updates Processed:{stats['updates_processed']}")
         print("\n-----------------------------------------------")
 
     def remove_player(self, player_id):
