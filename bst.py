@@ -1,6 +1,6 @@
 """
 Binary Search Tree implementation for storing players by score
-Rider Gordon - Primary implementer
+Rider Gordon
 """
 from player import Player
 
@@ -8,200 +8,217 @@ from player import Player
 class BSTNode:
     """
     Node in the Binary Search Tree.
-    Each node stores a player and references to left/right children.
+    Each node stores a player and references to left and right children.
     """
     
     def __init__(self, player):
         """
         Initialize a BST node.
-        
-        Args:
-            player (Player): The player object to store
         """
         self.player = player
         self.left = None
         self.right = None
-        # Optional: Uncomment these for advanced features
-        # self.height = 1  # For AVL balancing
-        # self.subtree_size = 1  # For O(log n) rank queries
 
 
 class BinarySearchTree:
     """
-    Binary Search Tree for maintaining player rankings.
+    Binary Search Tree for storing player rankings.
     Players are ordered by score (high to low), with player_id as tiebreaker.
     """
     
     def __init__(self):
-        """Initialize an empty BST"""
         self.root = None
         self.size = 0
-    
+
     def insert(self, player):
         """
         Insert a player into the BST.
-        
-        Args:
-            player (Player): Player to insert
-            
-        Returns:
-            BSTNode: The node that was inserted
         """
-        # TODO: Implement insertion logic
-        # - Handle empty tree case
-        # - Recursively find correct position
-        # - Create and return new node
-        # - Update size
-        pass
-    
-    def _insert_recursive(self, node, player):
+        # Initial empty tree - new player becomes the root
+        if self.root is None:
+            self.root = BSTNode(player)
+            self.size += 1
+            return self.root
+
+        # The tree has nodes - insert recursively
+        new_node = self.insert_recursively(self.root, player)
+        self.size += 1
+        return new_node
+
+    def insert_recursively(self, node, player):
         """
-        Recursive helper for insertion.
-        
-        Args:
-            node (BSTNode): Current node in recursion
-            player (Player): Player to insert
-            
-        Returns:
-            BSTNode: Root of the subtree after insertion
+        Insert into the BST tree recursively
         """
-        # TODO: Implement recursive insertion
-        # - Base case: node is None, create new node
-        # - Compare player with node.player
-        # - Recursively insert in left or right subtree
-        pass
-    
+        if node is None:
+            return BSTNode(player)
+
+        if player < node.player:
+            # if the new player has lower score  go left
+            if node.left is None:
+                node.left = BSTNode(player)
+                return node.left
+            else:
+                return self.insert_recursively(node.left, player)
+        else:
+            # if the new player has higher score, go right
+            if node.right is None:
+                node.right = BSTNode(player)
+                return node.right
+            else:
+                return self.insert_recursively(node.right, player)
+
     def delete(self, player_id):
         """
         Delete a player from the BST by player_id.
-        
-        Args:
-            player_id (str): ID of player to delete
-            
-        Returns:
-            bool: True if player was found and deleted, False otherwise
         """
-        # TODO: Implement deletion logic
-        # - Find the node with matching player_id
-        # - Handle three cases:
-        #   1. Node has no children (leaf)
-        #   2. Node has one child
-        #   3. Node has two children (find inorder successor/predecessor)
-        # - Update size
-        pass
-    
-    def _delete_recursive(self, node, player_id):
-        """
-        Recursive helper for deletion.
-        
-        Args:
-            node (BSTNode): Current node in recursion
-            player_id (str): ID of player to delete
-            
-        Returns:
-            BSTNode: Root of the subtree after deletion
-        """
-        # TODO: Implement recursive deletion
-        pass
-    
-    def _find_min(self, node):
+        # Check if player exists first
+        if self.search(player_id) is None:
+            return False
+
+        # delete recursively
+        self.root = self.delete_recursively(self.root, player_id)
+        self.size -= 1
+        return True
+
+    def delete_recursively(self, node, player_id):
+        #recursive deletion
+        if node is None:
+            return None
+
+        # Found the node to delete
+        if node.player.player_id == player_id:
+            #Leaf node (no children)
+            if node.left is None and node.right is None:
+                return None
+
+            #Only right child
+            elif node.left is None:
+                return node.right
+
+            #Only left child
+            elif node.right is None:
+                return node.left
+
+            # both left and right children
+            else:
+                # Find inorder successor
+                successor = self.find_min(node.right)
+
+                # Replace current node's player with successor's player
+                node.player = successor.player
+
+                # Delete the successor from the right subtree
+                node.right = self.delete_recursively(node.right, successor.player.player_id)
+
+                return node
+
+        # Not found at this node, search both subtrees
+        node.left = self.delete_recursively(node.left, player_id)
+        node.right = self.delete_recursively(node.right, player_id)
+
+        return node
+
+    def find_min(self, node):
         """
         Find the node with minimum value in a subtree.
-        Used for finding inorder successor during deletion.
-        
-        Args:
-            node (BSTNode): Root of subtree to search
-            
-        Returns:
-            BSTNode: Node with minimum value
         """
-        # TODO: Traverse left until you can't go further
-        pass
-    
+        current = node
+        while current.left is not None:
+            current = current.left
+        return current
+
     def search(self, player_id):
         """
         Search for a player by player_id.
-        
-        Args:
-            player_id (str): ID of player to find
-            
-        Returns:
-            Player: The player object if found, None otherwise
         """
-        # TODO: Implement search
-        # Note: This is O(n) worst case since we're searching by ID, not score
-        # The integration layer will use a hash map for O(1) lookups
-        pass
-    
-    def _search_recursive(self, node, player_id):
+        return self.search_recursively(self.root, player_id)
+
+    def search_recursively(self, node, player_id):
         """
-        Recursive helper for search.
-        
-        Args:
-            node (BSTNode): Current node in recursion
-            player_id (str): ID of player to find
-            
-        Returns:
-            Player: The player if found, None otherwise
+        helper function for search
         """
-        # TODO: Check current node, then search both subtrees if needed
-        pass
-    
-    def get_top_n(self, n):
-        """
-        Get the top N players (highest scores).
-        
-        Args:
-            n (int): Number of top players to retrieve
-            
-        Returns:
-            list[Player]: List of top N players, ordered by rank
-        """
-        # TODO: Use in-order traversal to get players in rank order
-        # Since BST is ordered high-to-low, in-order gives ranked list
-        pass
-    
+        if node is None:
+            return None
+
+        if node.player.player_id == player_id:
+            return node.player
+
+        left_result = self.search_recursively(node.left, player_id)
+        if left_result is not None:
+            return left_result
+
+        return self.search_recursively(node.right, player_id)
+
     def inorder_traversal(self):
         """
         Perform in-order traversal of the tree.
-        Returns players in rank order (highest score first).
-        
-        Returns:
-            list[Player]: All players in rank order
+        this returns players in low to high score.
         """
         result = []
-        self._inorder_recursive(self.root, result)
+        self.inorder_recursively(self.root, result)
         return result
-    
-    def _inorder_recursive(self, node, result):
+
+    def inorder_recursively(self, node, result):
         """
-        Recursive helper for in-order traversal.
-        
-        Args:
-            node (BSTNode): Current node
-            result (list): List to accumulate players
+        helper function for in-order traversal.
         """
-        # TODO: Implement in-order traversal
-        # - Traverse left subtree
-        # - Visit current node (append player to result)
-        # - Traverse right subtree
-        pass
-    
+        if node is None:
+            return
+
+        self.inorder_recursively(node.left, result)
+        result.append(node.player)
+        self.inorder_recursively(node.right, result)
+
+    def reverse_inorder_traversal(self):
+        """
+        This returns players in order  of high to low score.
+        This is what we want for  our leaderboard
+        """
+        result = []
+        self.reverse_inorder_recursively(self.root, result)
+        return result
+
+    def reverse_inorder_recursively(self, node, result):
+        """
+        helper function for reverse in-order traversal.
+        """
+        if node is None:
+            return
+
+        self.reverse_inorder_recursively(node.right, result)  # Higher scores first
+        result.append(node.player)
+        self.reverse_inorder_recursively(node.left, result)  # Lower scores last
+
+    def get_leaderboard(self):
+        """
+        Get the leaderboard
+        """
+        return self.reverse_inorder_traversal()
+
+    def get_top_n(self, n):
+        """
+        Get the top N players with highest scores.
+        """
+        ranked_players = self.get_leaderboard()
+
+        # Return only the first N players
+        return ranked_players[:n]
+
     def get_rank(self, player_id):
         """
-        Get the rank of a player (1-indexed, 1 = highest score).
-        
-        Args:
-            player_id (str): ID of player
-            
-        Returns:
-            int: Rank of the player, or -1 if not found
+        Get the rank of a player.
         """
-        # TODO: Implement rank query
-        # Simple approach: do in-order traversal and find position
-        # Advanced approach: augment nodes with subtree_size for O(log n) queries
-        pass
-    
+        # Get all players in order of high to low
+        ranked_players = self.get_leaderboard()
+
+        # Find the player's position
+        for rank, player in enumerate(ranked_players, 1):
+            if player.player_id == player_id:
+                return rank
+
+        # Player not found
+        return -1
+
     def is_empty(self):
         """Check if tree is empty"""
         return self.root is None
@@ -215,35 +232,3 @@ class BinarySearchTree:
         self.root = None
         self.size = 0
 
-
-# Optional: AVL Tree implementation for self-balancing
-class AVLTree(BinarySearchTree):
-    """
-    Self-balancing BST using AVL rotations.
-    Only implement this if you have time after basic BST works.
-    """
-    
-    def _get_height(self, node):
-        """Get height of a node"""
-        # TODO: Return node.height or 0 if node is None
-        pass
-    
-    def _get_balance(self, node):
-        """Get balance factor of a node"""
-        # TODO: Return height(left) - height(right)
-        pass
-    
-    def _rotate_left(self, z):
-        """Perform left rotation"""
-        # TODO: Implement left rotation
-        pass
-    
-    def _rotate_right(self, z):
-        """Perform right rotation"""
-        # TODO: Implement right rotation
-        pass
-    
-    def _rebalance(self, node):
-        """Rebalance node if needed after insertion/deletion"""
-        # TODO: Check balance factor and perform rotations
-        pass
