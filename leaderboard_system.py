@@ -22,7 +22,6 @@ class LeaderboardSystem:
     - FIFO processing order
     - O(1) player lookup via hash map
     - O(log n) BST operations
-    - Complete player management
     """
 
     def __init__(self):
@@ -49,7 +48,7 @@ class LeaderboardSystem:
 
         print(f"Queued update: {username} ({player_id}) -> {score}")
 
-    def process_updates(self, max_updates=None):
+    def process_updates(self):
         """
         Process pending updates from the queue.
         Updates are applied to BST in FIFO order.
@@ -60,9 +59,6 @@ class LeaderboardSystem:
         print(f"\nProcessing updates...")
 
         while not self.update_queue.is_empty():
-            # Check if we've hit the limit
-            if max_updates is not None and processed >= max_updates:
-                break
 
             # Dequeue next update (FIFO order)
             update = self.update_queue.dequeue()

@@ -4,7 +4,7 @@
 **Team Members:**
 - Rider Gordon (BST Implementation)
 - Chase Barman (FIFO Queue Implementation)
-- Srinivas Krishnan (System Integration)
+- Srinivas Krishnan (Leaderboard system and demo)
 
 **Repository:** https://github.com/skrishnan28-sys/Final-Project
 
@@ -49,7 +49,6 @@ This system ensures that all score updates are processed fairly (first-come, fir
 - ✅ O(log n) insert/delete operations via BST
 - ✅ O(1) player lookup via hash map
 - ✅ O(n) leaderboard retrieval
-- ✅ Support for batch and incremental processing
 - ✅ Comprehensive demonstration scenarios
 
 ---
@@ -105,7 +104,7 @@ get_size()               # O(1)
 **Why FIFO Queue?**
 - Guarantees fairness: first update submitted is first processed
 - Decouples score submission from processing
-- Allows batch processing strategies
+- Allows batch processing 
 
 ---
 
@@ -120,7 +119,7 @@ self.player_lookup = {}  # player_id → Player object
 **Why Hash Map?**
 - O(1) player lookup by ID
 - Quick existence checks before BST operations
-- Complements BST (BST stores by score, hash map by ID)
+
 
 ---
 
@@ -254,15 +253,6 @@ print(f"Alice's rank: #{rank}")
 | get_rank(player_id) | O(n) | Full traversal |
 | get_player(player_id) | O(1) | Hash map |
 
-### Space Complexity
-
-| Component | Space |
-|-----------|-------|
-| BST | O(n) |
-| FIFO Queue | O(m) |
-| Hash Map | O(n) |
-| **Total** | **O(n + m)** |
-
 ---
 
 ## Team Contributions
@@ -299,7 +289,7 @@ print(f"Alice's rank: #{rank}")
 ### AI Tool Usage
 **No AI tools (ChatGPT, Copilot) used for core data structure implementations.**
 
-AI tools may have been consulted for:
+AI tools  have been consulted for:
 - Documentation formatting
 - Demo scenario ideas
 - README structure
@@ -309,12 +299,6 @@ AI tools may have been consulted for:
 ---
 
 ## Testing
-
-### Test Coverage
-- BST: Insert, delete, search, traversal, edge cases
-- FIFO Queue: Enqueue, dequeue, FIFO ordering, empty handling
-- Integration: Score updates, ranking queries, player operations
-- Stress test: 100+ players
 
 ### Running Tests
 ```bash
@@ -342,48 +326,11 @@ python DemoLeaderBoard.py
 
 ---
 
-## Requirements Compliance
-
-### ✅ Two Core Data Structures from Scratch
-1. **Binary Search Tree** - 250+ lines, full implementation
-2. **FIFO Queue** - 100+ lines, from-scratch implementation
-
-### ✅ Data Structures Are Central
-- BST is THE ranking engine (not decorative)
-- FIFO Queue determines processing order (critical for fairness)
-- Cannot be replaced with built-ins
-
-### ✅ Demonstrates Mastery
-- Correct algorithms for BST and FIFO
-- Complexity analysis
-- Trade-off discussion
-- Real-world application
-
-### ✅ Handles Non-Toy Inputs
-- 100+ players efficiently
-- Stress tested
-- Realistic tournament scenarios
-
-### ✅ Git Repository
-- Repository: https://github.com/skrishnan28-sys/Final-Project
-- Individual contributions tracked
-- Visible commit history
-
 ### ✅ Documentation
 - Comprehensive README
 - Code comments
 - Complexity analysis
 - Team contributions documented
-
----
-
-## Conclusion
-
-This system demonstrates practical application of fundamental data structures. By implementing BST and FIFO Queue from scratch, we created a system that balances efficiency, fairness, and scalability.
-
-**The data structures aren't decorative—they're the engine that makes real-time, fair, efficient leaderboard management possible.**
-
----
 
 ## Repository
 
