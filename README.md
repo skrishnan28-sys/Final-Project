@@ -21,8 +21,6 @@
 8. [External Tools & Disclosure](#external-tools--disclosure)
 9. [Testing](#testing)
 10. [Performance](#performance)
-11. [Requirements Compliance](#requirements-compliance)
-
 ---
 
 ## Project Overview
